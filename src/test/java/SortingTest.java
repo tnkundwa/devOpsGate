@@ -1,18 +1,11 @@
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.LoadState;
-import com.microsoft.playwright.options.WaitForSelectorState;
-import com.microsoft.playwright.options.WaitUntilState;
 
 import org.junit.jupiter.api.*;
 import java.util.List;
-import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.junit.jupiter.api.Disabled;
-
-@Disabled
 public class SortingTest {
     static Playwright playwright;
     static Browser browser;
@@ -34,22 +27,13 @@ public class SortingTest {
 
     @Test
     void testSortingPriceLowToHigh() {
+
     try {
-        page.navigate("https://practicesoftwaretesting.com/", new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        page.navigate("https://practicesoftwaretesting.com/");
 
-        Locator acceptCookies = page.locator("button:has-text('Accept')");
-        if (acceptCookies.isVisible()) {
-            acceptCookies.click();
-        }
-
-        // Locator sortDropdown = page.locator(".form-select");
-        Locator sortDropdown = page.locator("[data-test='sort']");
-
-        sortDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(60000));
+        Locator sortDropdown = page.locator(".form-select");
 
         sortDropdown.selectOption("price,desc");
-
-        page.waitForLoadState(LoadState.NETWORKIDLE, new Page.WaitForLoadStateOptions().setTimeout(60000));
         
         Locator pricelist = page.locator("[data-test=\"product-price\"]");
 
@@ -59,8 +43,8 @@ public class SortingTest {
         List<Double> sortedPrices = new ArrayList<>(prices);
         Collections.sort(sortedPrices, Collections.reverseOrder());
         Assertions.assertEquals(sortedPrices, prices, "The prices are not sorted correctly!");
-    } catch (AssertionError | Exception e) {
-        new File("target/screenshots/").mkdirs();
+
+    } catch (Exception e) {
         page.screenshot(new Page.ScreenshotOptions()
             .setPath(Paths.get("target/screenshots/failure-sorting.png"))
             .setFullPage(true));
@@ -83,3 +67,15 @@ public class SortingTest {
     }
     }
 }
+
+/*
+
+yml code
+    - name: Upload Screenshots on Failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: failure-screenshots
+        path: target/screenshots/
+
+*/
