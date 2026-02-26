@@ -24,11 +24,12 @@ public class SortingTest {
     void createContext() {
         context = browser.newContext();
         page = context.newPage();
+        page.setDefaultTimeout(60000);
     }
 
     @Test
     void testSortingPriceLowToHigh() {
-        page.navigate("https://practicesoftwaretesting.com/", new Page.NavigateOptions().setWaitUntil(WaitUntilState.NETWORKIDLE));
+        page.navigate("https://practicesoftwaretesting.com/", new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
 
         Locator acceptCookies = page.locator("button:has-text('Accept')");
         if (acceptCookies.isVisible()) {
@@ -42,7 +43,7 @@ public class SortingTest {
 
         sortDropdown.selectOption("price,desc");
 
-        page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForLoadState(LoadState.NETWORKIDLE, new Page.WaitForLoadStateOptions().setTimeout(60000));
         
         Locator pricelist = page.locator("[data-test=\"product-price\"]");
 
