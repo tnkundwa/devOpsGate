@@ -29,11 +29,12 @@ jobs:
 
     - name: Run Automated Tests
       run: mvn test
+
     - name: Print Surefire reports
-  if: always()
-  run: |
-    echo "---- surefire-reports ----"
-    ls target/surefire-reports
-    echo "--------------------------"
-    cat target/surefire-reports/*.txt || true
-    cat target/surefire-reports/*.xml || true
+      if: always()
+      run: |
+        echo "---- surefire-reports ----"
+        ls target/surefire-reports
+        echo "--------------------------"
+        cat target/surefire-reports/*.txt || true
+        cat target/surefire-reports/*.xml || true
