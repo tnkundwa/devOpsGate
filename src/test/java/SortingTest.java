@@ -30,6 +30,11 @@ public class SortingTest {
     void testSortingPriceLowToHigh() {
         page.navigate("https://practicesoftwaretesting.com/", new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
 
+        Locator acceptCookies = page.locator("button:has-text('Accept')");
+        if (acceptCookies.isVisible()) {
+            acceptCookies.click();
+        }
+
         // Locator sortDropdown = page.locator(".form-select");
         Locator sortDropdown = page.locator("[data-test='sort']");
 
