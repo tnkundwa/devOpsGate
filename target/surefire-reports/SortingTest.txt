@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: SortingTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 26.11 s -- in SortingTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 21.82 s -- in SortingTest
