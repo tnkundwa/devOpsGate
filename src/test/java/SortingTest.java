@@ -49,7 +49,11 @@ public class SortingTest {
 
     @AfterAll
     static void closeBrowser() {
+        if (browser != null) {
         browser.close();
+    }
+    if (playwright != null) {
         playwright.close();
+    }
     }
 }
