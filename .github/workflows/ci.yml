@@ -27,18 +27,5 @@ jobs:
     - name: Install Playwright Browsers
       run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
 
-- name: Run Automated Tests
+    - name: Run Automated Tests
       run: mvn test
-
-    - name: Print Surefire reports
-      if: always()
-      run: |
-        echo "---- surefire-reports ----"
-        ls target/surefire-reports
-        echo "--------------------------"
-        cat target/surefire-reports/*.txt || true
-<<<<<<< Updated upstream
-        cat target/surefire-reports/*.xml || true
-=======
-        cat target/surefire-reports/*.xml || true
->>>>>>> Stashed changes
