@@ -1,5 +1,6 @@
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
+import com.microsoft.playwright.options.WaitForSelectorState;
 
 import org.junit.jupiter.api.*;
 import java.util.List;
@@ -28,10 +29,15 @@ public class SortingTest {
     void testSortingPriceLowToHigh() {
         page.navigate("https://practicesoftwaretesting.com/");
 
-        page.locator(".form-select").selectOption("price,desc");
+        Locator sortDropdown = page.locator(".form-select");
 
-        Locator pricelist = page.locator("[data-test=\"product-price\"]");
+        sortDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+
+        sortDropdown.selectOption("price,desc");
+
         page.waitForLoadState(LoadState.NETWORKIDLE);
+        
+        Locator pricelist = page.locator("[data-test=\"product-price\"]");
 
         List<String> priceTexts = pricelist.allInnerTexts().stream().map(i -> i.substring(1)).toList();
         List<Double> prices = priceTexts.stream().map(Double::parseDouble).toList();
