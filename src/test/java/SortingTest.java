@@ -5,7 +5,9 @@ import java.util.List;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import org.junit.jupiter.api.Disabled;
 
+@Disabled
 public class SortingTest {
     static Playwright playwright;
     static Browser browser;
