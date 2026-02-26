@@ -1,6 +1,7 @@
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import com.microsoft.playwright.options.WaitUntilState;
 
 import org.junit.jupiter.api.*;
 import java.util.List;
@@ -27,9 +28,10 @@ public class SortingTest {
 
     @Test
     void testSortingPriceLowToHigh() {
-        page.navigate("https://practicesoftwaretesting.com/");
+        page.navigate("https://practicesoftwaretesting.com/", new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
 
-        Locator sortDropdown = page.locator(".form-select");
+        // Locator sortDropdown = page.locator(".form-select");
+        Locator sortDropdown = page.locator("[data-test='sort']");
 
         sortDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
 
