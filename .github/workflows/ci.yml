@@ -1,0 +1,31 @@
+name: Playwright Automation CI
+
+on:
+  push:
+    branches: [ "main", "dev", "ft/*" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  test-automation:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Install Project Dependencies
+      run: mvn install -DskipTests
+
+    - name: Install Playwright Browsers
+      run: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
+
+    - name: Run Automated Tests
+      run: mvn test
