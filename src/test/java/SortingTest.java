@@ -5,6 +5,7 @@ import com.microsoft.playwright.options.WaitUntilState;
 
 import org.junit.jupiter.api.*;
 import java.util.List;
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,10 +31,8 @@ public class SortingTest {
 
     @Test
     void testSortingPriceLowToHigh() {
+    try {
         page.navigate("https://practicesoftwaretesting.com/", new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
-
-page.screenshot(new Page.ScreenshotOptions()
-    .setPath(Paths.get("target/screenshots/after-navigate.png")));
 
         Locator acceptCookies = page.locator("button:has-text('Accept')");
         if (acceptCookies.isVisible()) {
@@ -56,8 +55,14 @@ page.screenshot(new Page.ScreenshotOptions()
 
         List<Double> sortedPrices = new ArrayList<>(prices);
         Collections.sort(sortedPrices, Collections.reverseOrder());
-        
         Assertions.assertEquals(sortedPrices, prices, "The prices are not sorted correctly!");
+    } catch (AssertionError | Exception e) {
+        new File("target/screenshots/").mkdirs();
+        page.screenshot(new Page.ScreenshotOptions()
+            .setPath(Paths.get("target/screenshots/failure-sorting.png"))
+            .setFullPage(true));
+        throw e;
+    }
     }
 
     @AfterEach
